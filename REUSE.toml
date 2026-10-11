@@ -1,8 +1,8 @@
 version = 1
 
-SPDX-PackageName = "jackin-github-terraform"
+SPDX-PackageName = "github-terraform"
 SPDX-PackageSupplier = "Alexey Zhokhov <alexey@zhokhov.com>"
-SPDX-PackageDownloadLocation = "https://github.com/jackin-project/jackin-github-terraform"
+SPDX-PackageDownloadLocation = "https://github.com/jackin-project/github-terraform"
 SPDX-PackageOriginator = "Person: Alexey Zhokhov"
 
 # Declare copyright and license for the whole repository. Source files also
