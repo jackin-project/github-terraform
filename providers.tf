@@ -2,5 +2,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 provider "github" {
-  owner = "jackin-project"
+  owner = var.github_organization
+  token = var.github_token != null ? var.github_token : null
 }
