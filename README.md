@@ -1,4 +1,4 @@
-# jackin-github-terraform
+# github-terraform
 
 Manages GitHub repository settings and branch/tag protection for the
 `jackin-project` organization: 9 repositories, each with repository merge

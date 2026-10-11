@@ -5,7 +5,7 @@
 
 check "mandatory_target_repositories_present" {
   assert {
-    condition     = toset(keys(var.repository_policies)) == toset(["homebrew-tap", "jackin", "jackin-agent-smith", "jackin-dev", "jackin-github-terraform", "jackin-marketplace", "jackin-role-action", "jackin-sentinel", "jackin-the-architect"])
+    condition     = toset(keys(var.repository_policies)) == toset(["homebrew-tap", "jackin", "jackin-agent-smith", "jackin-dev", "github-terraform", "jackin-marketplace", "jackin-role-action", "jackin-sentinel", "jackin-the-architect"])
     error_message = "repository_policies must contain exactly the 9 managed jackin-project repositories (8 standard plus jackin-marketplace)."
   }
 }
@@ -37,19 +37,19 @@ check "no_ci_exception_allowlist_is_explicit" {
 
 check "self_protection_enforced" {
   assert {
-    condition     = contains(keys(var.repository_policies), "jackin-github-terraform")
-    error_message = "jackin-github-terraform must remain in the managed repository inventory; every inventory entry receives both rulesets."
+    condition     = contains(keys(var.repository_policies), "github-terraform")
+    error_message = "github-terraform must remain in the managed repository inventory; every inventory entry receives both rulesets."
   }
 }
 
 check "jackin_terraform_required_checks_match_ci" {
   assert {
-    condition = contains(keys(var.repository_policies), "jackin-github-terraform") ? (
-      length(var.repository_policies["jackin-github-terraform"].required_checks) == 2 &&
-      contains(var.repository_policies["jackin-github-terraform"].required_checks, "Required") &&
-      contains(var.repository_policies["jackin-github-terraform"].required_checks, "DCO")
+    condition = contains(keys(var.repository_policies), "github-terraform") ? (
+      length(var.repository_policies["github-terraform"].required_checks) == 2 &&
+      contains(var.repository_policies["github-terraform"].required_checks, "Required") &&
+      contains(var.repository_policies["github-terraform"].required_checks, "DCO")
     ) : false
-    error_message = "jackin-github-terraform must require the current green CI aggregator (Required) and DCO checks."
+    error_message = "github-terraform must require the current green CI aggregator (Required) and DCO checks."
   }
 }
 

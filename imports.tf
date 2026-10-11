@@ -62,18 +62,18 @@ import {
 }
 
 import {
-  to = module.repository_policy.github_repository.managed_settings["jackin-github-terraform"]
-  id = "jackin-github-terraform"
+  to = module.repository_policy.github_repository.managed_settings["github-terraform"]
+  id = "github-terraform"
 }
 
 import {
-  to = module.repository_policy.github_repository_ruleset.protect_main["jackin-github-terraform"]
-  id = "jackin-github-terraform:15175310"
+  to = module.repository_policy.github_repository_ruleset.protect_main["github-terraform"]
+  id = "github-terraform:15175310"
 }
 
 import {
-  to = module.repository_policy.github_repository_ruleset.protect_tags["jackin-github-terraform"]
-  id = "jackin-github-terraform:15179227"
+  to = module.repository_policy.github_repository_ruleset.protect_tags["github-terraform"]
+  id = "github-terraform:15179227"
 }
 
 import {

@@ -39,7 +39,7 @@ variable "repository_policies" {
       visibility      = "public"
       required_checks = ["Required", "DCO"]
     }
-    "jackin-github-terraform" = {
+    "github-terraform" = {
       visibility      = "public"
       required_checks = ["Required", "DCO"]
     }
