@@ -1,59 +1,87 @@
 # SPDX-FileCopyrightText: 2026 Alexey Zhokhov
 # SPDX-License-Identifier: Apache-2.0
 
+variable "github_organization" {
+  description = "GitHub organization that owns the managed repositories"
+  type        = string
+  default     = "jackin-project"
+}
+
+variable "github_token" {
+  description = "GitHub token for the github provider; null falls back to GITHUB_TOKEN env"
+  type        = string
+  default     = null
+  sensitive   = true
+}
+
 variable "repository_policies" {
   description = "Authoritative map of managed repository names to their protection policy configuration"
   type = map(object({
-    disposition     = string # "FullRuleset" | "RepoSettingsOnly"
     visibility      = string # "public" | "private"
     required_checks = list(string)
+    no_ci_reason    = optional(string)
   }))
   default = {
     # The current Velnor CI aggregator is Required; DCO is an independent app check.
     "homebrew-tap" = {
-      disposition     = "FullRuleset"
       visibility      = "public"
       required_checks = ["Required", "DCO"]
     }
     "jackin" = {
-      disposition     = "FullRuleset"
       visibility      = "public"
       required_checks = ["Required", "DCO"]
     }
     "jackin-agent-smith" = {
-      disposition     = "FullRuleset"
       visibility      = "public"
       required_checks = ["Required", "DCO"]
     }
     "jackin-dev" = {
-      disposition     = "FullRuleset"
       visibility      = "public"
       required_checks = ["Required", "DCO"]
     }
     "jackin-github-terraform" = {
-      disposition     = "FullRuleset"
       visibility      = "public"
       required_checks = ["Required", "DCO"]
     }
     "jackin-marketplace" = {
-      disposition     = "FullRuleset"
       visibility      = "public"
       required_checks = ["Policy"]
     }
     "jackin-role-action" = {
-      disposition     = "FullRuleset"
       visibility      = "public"
       required_checks = ["Required", "DCO"]
     }
     "jackin-sentinel" = {
-      disposition     = "FullRuleset"
       visibility      = "public"
       required_checks = ["Required", "DCO"]
     }
     "jackin-the-architect" = {
-      disposition     = "FullRuleset"
       visibility      = "public"
       required_checks = ["Required", "DCO"]
     }
+  }
+
+  validation {
+    condition = alltrue([
+      for name, config in var.repository_policies :
+      contains(["public", "private"], config.visibility)
+    ])
+    error_message = "visibility must be either 'public' or 'private'."
+  }
+
+  validation {
+    condition = alltrue([
+      for name, config in var.repository_policies :
+      (
+        length(config.required_checks) > 0
+        && alltrue([for c in config.required_checks : trimspace(c) != ""])
+        && config.no_ci_reason == null
+        ) || (
+        length(config.required_checks) == 0
+        && config.no_ci_reason != null
+        && trimspace(config.no_ci_reason) != ""
+      )
+    ])
+    error_message = "Each entry must satisfy: non-empty blank-free required_checks with null no_ci_reason, XOR empty checks with non-empty no_ci_reason."
   }
 }
