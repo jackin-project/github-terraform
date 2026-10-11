@@ -1,6 +1,10 @@
 # SPDX-FileCopyrightText: 2026 Alexey Zhokhov
 # SPDX-License-Identifier: Apache-2.0
 
+output "organization" {
+  value = var.github_organization
+}
+
 output "managed_repositories" {
   description = "Set of managed repository names (inventory keys)"
   value       = module.repository_policy.managed_repositories

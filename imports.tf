@@ -5,6 +5,21 @@
 # These stable IDs prevent a fresh state from planning duplicate repositories or rulesets.
 
 import {
+  to = github_organization_settings.jackin_project
+  id = "273541039"
+}
+
+import {
+  to = github_actions_organization_permissions.jackin_project
+  id = "jackin-project"
+}
+
+import {
+  to = github_actions_organization_workflow_permissions.jackin_project
+  id = "jackin-project"
+}
+
+import {
   to = module.repository_policy.github_repository.managed_settings["homebrew-tap"]
   id = "homebrew-tap"
 }

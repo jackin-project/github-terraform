@@ -9,3 +9,25 @@ opentofu = "1.13.1"
 python = "3.14"
 uv = "0.11.29"
 "pipx:reuse" = { version = "6.2.0", extras = "charset-normalizer", depends = ["python"] }
+
+[tasks."tofu:plan"]
+description = "Run tofu plan"
+run = """
+set -eu
+export OP_ACCOUNT='zhokhov.1password.com'
+GITHUB_TOKEN="$(op read 'op://Private/hq3g4pvryg4iise4vxwhk6p5jy/jackin-project-opentofu')" || { echo "op read failed, refusing to run" >&2; exit 1; }
+export GITHUB_TOKEN
+[ -n "${GITHUB_TOKEN:-}" ] || { echo "GITHUB_TOKEN is empty, refusing to run" >&2; exit 1; }
+exec tofu plan "$@"
+"""
+
+[tasks."tofu:apply"]
+description = "Run tofu apply"
+run = """
+set -eu
+export OP_ACCOUNT='zhokhov.1password.com'
+GITHUB_TOKEN="$(op read 'op://Private/hq3g4pvryg4iise4vxwhk6p5jy/jackin-project-opentofu')" || { echo "op read failed, refusing to run" >&2; exit 1; }
+export GITHUB_TOKEN
+[ -n "${GITHUB_TOKEN:-}" ] || { echo "GITHUB_TOKEN is empty, refusing to run" >&2; exit 1; }
+exec tofu apply "$@"
+"""

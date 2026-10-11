@@ -1,0 +1,50 @@
+# SPDX-FileCopyrightText: 2026 Alexey Zhokhov
+# SPDX-License-Identifier: Apache-2.0
+
+# Organization-wide policy. Actions permissions and workflow defaults match the
+# live baseline (tightening waits for per-repo workflow audits). New-repository
+# security defaults are intentionally hardened (detection-only, future repos).
+
+resource "github_organization_settings" "jackin_project" {
+  billing_email = "alexey@zhokhov.com"
+
+  name        = ""
+  description = ""
+  blog        = ""
+  email       = "jackin@tailrocks.com"
+  location    = "Singapore"
+
+  has_organization_projects       = true
+  has_repository_projects         = true
+  default_repository_permission   = "read"
+  members_can_create_repositories = true
+
+  members_can_create_public_repositories  = true
+  members_can_create_private_repositories = true
+
+  members_can_create_pages         = true
+  members_can_create_public_pages  = true
+  members_can_create_private_pages = true
+
+  members_can_fork_private_repositories = false
+  web_commit_signoff_required           = false
+
+  dependabot_alerts_enabled_for_new_repositories               = true
+  dependabot_security_updates_enabled_for_new_repositories     = true
+  dependency_graph_enabled_for_new_repositories                = true
+  secret_scanning_enabled_for_new_repositories                 = true
+  secret_scanning_push_protection_enabled_for_new_repositories = true
+}
+
+resource "github_actions_organization_permissions" "jackin_project" {
+  enabled_repositories = "all"
+  allowed_actions      = "all"
+  sha_pinning_required = false
+}
+
+resource "github_actions_organization_workflow_permissions" "jackin_project" {
+  organization_slug = var.github_organization
+
+  default_workflow_permissions     = "write"
+  can_approve_pull_request_reviews = false
+}

@@ -9,6 +9,7 @@ settings plus `protect-main` and `protect-tags` rulesets.
 - `variables.tf` — `repository_policies` inventory (single source of truth).
 - `locals.tf` — `check_templates` copy-paste source for check lists.
 - `repositories.tf` — `module.repository_policy` wiring.
+- `organization.tf` — organization settings and Actions/workflow permissions.
 - `modules/repository-policy/` — shared policy module (identical across orgs).
 - `checks.tf` — invariant guards (no scripts).
 - `imports.tf` — bootstrap import triples (one per repo: settings + 2 rulesets).
@@ -16,9 +17,11 @@ settings plus `protect-main` and `protect-tags` rulesets.
 
 ## Authentication
 
-Run tofu with `GITHUB_TOKEN` exported in the shell; the GitHub provider
-reads it from the environment. The token needs Administration: write on
-every managed repository.
+Run tofu with `GITHUB_TOKEN` exported in the shell, or via the mise tasks
+`mise run tofu:plan` / `mise run tofu:apply`, which inject the organization
+token from 1Password. The token needs Administration: write on every managed
+repository. It also needs org admin on `jackin-project` for the organization
+settings and Actions policies in `organization.tf`.
 
 ## Adding a repository
 
@@ -31,6 +34,13 @@ every managed repository.
    `checks.tf` (updating its count and message).
 2. Add one import triple (settings + `protect_main` + `protect_tags`) to
    `imports.tf` using the live numeric ruleset IDs.
+
+## Organization overlays
+
+- `organization.tf` manages the org profile (`github_organization_settings`),
+  Actions availability/allow policy (`github_actions_organization_permissions`),
+  and default `GITHUB_TOKEN` workflow permissions
+  (`github_actions_organization_workflow_permissions`).
 
 ## Verification
 
