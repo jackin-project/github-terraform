@@ -14,6 +14,7 @@ crash.*.log
 *.tfvars.json
 *.auto.tfvars
 *.auto.tfvars.json
+!terraform.tfvars.example
 
 # OpenTofu override files — often used for local-only config
 override.tf
@@ -42,3 +43,5 @@ id_ed25519*
 .vscode/
 *.swp
 .DS_Store
+.terraformrc
+terraform.rc
