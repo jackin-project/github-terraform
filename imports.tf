@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Alexey Zhokhov
+# SPDX-License-Identifier: Apache-2.0
+
 # Adopt the existing GitHub resources into the default local state before managing them.
 # These stable IDs prevent a fresh state from planning duplicate repositories or rulesets.
 
